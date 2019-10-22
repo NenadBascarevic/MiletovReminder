@@ -1,0 +1,25 @@
+ {% extends "base.html" %}
+
+ {% block content%}
+    <h1><img src="{{ current_user.get_profile_photo() }}" width="128 height=128"></h1>
+    <h1>Hi, {{ current_user.username }}!</h1>
+    {% include 'reminder.html' %}
+    <hr>
+    <p style="font-size:20px"><b>Active reminders</b></p>
+    {% for reminder in reminders %}
+    <div>{{ reminder.timestamp }}:    <b>{{ reminder.text }}</b>
+        <br><a href="{{ url_for('main.edit_reminder', id=reminder.id) }}">Edit</a>
+        <a href="{{ url_for('main.delete_reminder', id=reminder.id) }}">Delete</a>
+        <a href="{{ url_for('main.archive_reminder', id=reminder.id) }}">Archive</a>
+        <hr>
+    </div>
+    {% endfor %}
+    <center></center>
+    {% if prev_url %}
+    <a href="{{ prev_url }}">Newer reminders</a>
+    {% endif %}
+    {% if next_url %}
+    <a href="{{ next_url }}">Older reminders</a>
+    {% endif %}
+    </center>
+ {% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+    <table>
+        <tr valign="top">
+            <td><img src="{{ user.get_profile_photo() }}" width="128 height=128"></td>
+            <td>
+                <h1>User: {{ user.username }}</h1>
+                {% if user.user_info %}<p>{{ user.user_info }}</p>{% endif %}
+            </td>
+        </tr>
+    </table>
+    {% if current_user.admin %}
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>{{ form.deactivate() }} {{ form.deactivate.label }}</p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    {% endif %}
+    {% if user == current_user %}
+    <p><a href="{{ url_for('main.edit_profile') }}">Edit your profile</a></p>
+    {% endif %}
+    <hr>
+    <p style="font-size:20px"><b>Active</b></p>
+    {% for reminder in reminders %}
+        {% if not reminder.archived %}
+        <div>{{ reminder.timestamp }} <b>{{ reminder.text }}</b>
+        </div>
+        {% endif %}
+    {% endfor %}
+    <hr>
+    <p style="font-size:20px"><b>Archived</b></p>
+    {% for reminder in reminders %}
+        {% if reminder.archived %}
+        <div>{{ reminder.timestamp }}:    <b>{{ reminder.text }}</b></div>
+        {% endif %}
+    {% endfor %}
+    <br>
+    <center>
+    {% if prev_url %}
+    <a href="{{ prev_url }}">Newer reminders</a>
+    {% endif %}
+    {% if next_url %}
+    <a href="{{ next_url }}">Older reminders</a>
+    {% endif %}
+    </center>
+{% endblock %}

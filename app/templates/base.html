@@ -1,0 +1,36 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>Welcome to Miletov Reminder</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>Miletov rimajnder:
+            {% if current_user.is_anonymous %}
+            <a href="{{ url_for('auth.signin') }}">Sign In</a>
+            {% elif current_user.admin %}
+            <a href="{{ url_for('main.users') }}">Users list</a>
+            <a href="{{ url_for('auth.signout') }}">Sign Out</a>
+            <a href="{{ url_for('auth.refresh_token') }}">Refresh Token</a>
+            {% else %}
+            <a href="{{ url_for('main.homepage') }}">Homepage</a>
+            <a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a>
+            <a href="{{ url_for('auth.signout') }}">Sign Out</a>
+            <a href="{{ url_for('auth.refresh_token') }}">Refresh Token</a>
+            {% endif %}
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>

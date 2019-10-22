@@ -1,0 +1,15 @@
+<html>
+    <body>
+    <form action="" method="post">
+    {{ form.hidden_tag() }}
+        <p>
+             {{ form.reminder.label }}<br>
+             {{ form.reminder(cols=32, rows=4) }}<br>
+             {% for error in form.reminder.errors %}
+             <span style="color: red;">[{{ error }}]</span>
+             {% endfor %}
+         </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    </body>
+</html>

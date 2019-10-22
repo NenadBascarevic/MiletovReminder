@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+{% for user in users %}
+{% if current_user.username != user.username %}
+    <table>
+        <tr valign="top">
+            <td><img src="{{ user.get_profile_photo() }}" width="36" height="36"></td>
+            <td>
+                {% if user.admin %}
+                    <h1>Admin: {{ user.username }}</h1>
+                {% else %}
+                    <h1>User: {{ user.username }}</h1>
+                {% endif %}
+                <p><a href="{{ url_for('main.user', username=user.username) }}">Go to profile</a></p>
+                {% if user.user_info %}<p>{{ user.user_info }}</p>{% endif %}
+                <p>User active: <b>{{ user.active }}</b></p>
+            </td>
+        </tr>
+    </table>
+<hr>
+{% endif %}
+{% endfor %}
+{% endblock %}
